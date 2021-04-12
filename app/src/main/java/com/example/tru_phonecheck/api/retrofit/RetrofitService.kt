@@ -13,7 +13,7 @@ interface RetrofitService {
     @GET("/phone-check")
     suspend fun getPhoneCheck(@Query("check_id") checkId: String): Response<PhoneCheckResponse>
     companion object {
-        // set up base_url in the format https://{subdomain}.loca.lt
-        const val base_url = "https://jolly-panda-64.loca.lt"
+        // set up base_url in the format https://{subdomain}.loca.lt gotten from localTunnel URL
+        const val base_url = "https://{subdomain}.loca.lt"
     }
 }
