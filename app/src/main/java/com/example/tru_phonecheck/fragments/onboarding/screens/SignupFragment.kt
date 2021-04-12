@@ -13,7 +13,6 @@ import com.example.tru_phonecheck.R
 import com.example.tru_phonecheck.api.data.PhoneCheck
 import com.example.tru_phonecheck.api.data.PhoneCheckPost
 import com.example.tru_phonecheck.api.data.PhoneCheckResponse
-import com.example.tru_phonecheck.api.data.RedirectManager
 import com.example.tru_phonecheck.api.retrofit.RetrofitService
 import com.example.tru_phonecheck.utlis.isPhoneNumberFormatValid
 import com.google.android.material.snackbar.Snackbar
@@ -22,14 +21,13 @@ import kotlinx.android.synthetic.main.fragment_signup.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 class SignupFragment : Fragment() {
-    //private val redirectManager by lazy { RedirectManager() }
+
     private   val truSDK = TruSDK.getInstance();
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,8 +64,7 @@ class SignupFragment : Fragment() {
                           openCheckURL(phoneCheck)
 
 
-                       // enable button
-                          toggleButtonStatus(submitHandler, false)
+
 
                       }
                   } catch(e: Throwable){
@@ -87,13 +84,17 @@ class SignupFragment : Fragment() {
     }
     // function for disabling and enabling a button
     private fun toggleButtonStatus (button: Button?, isDisabled: Boolean){
-       if(isDisabled){
-           button?.isClickable = false;
-           button?.isEnabled = false;
-       } else {
-           button?.isClickable = true;
-           button?.isEnabled = true;
-       }
+     activity?.runOnUiThread {
+         if(isDisabled){
+             button?.isClickable = false;
+             button?.isEnabled = false;
+         } else {
+             button?.isClickable = true;
+             button?.isEnabled = true;
+         }
+
+     }
+
     }
         // open check URL
     private fun openCheckURL(phoneCheck: PhoneCheck){
@@ -102,6 +103,8 @@ class SignupFragment : Fragment() {
                 //redirectManager.openCheckUrl(phoneCheck.check_url)
                     // get phoneCheckResult
                 getPhoneCheckResult(phoneCheck.check_id)
+
+
 
             }
 
@@ -116,9 +119,17 @@ class SignupFragment : Fragment() {
 
                 // update UI with phoneCheckResponse
                 if(phoneCheckResponse.match){
+
                 Snackbar.make(container, "Registration Successful", Snackbar.LENGTH_LONG).show()
+                    // enable button
+
+                    toggleButtonStatus(submitHandler, false)
                 } else {
+
                     Snackbar.make(container, "Registration Failed", Snackbar.LENGTH_LONG).show()
+                    // enable button
+
+                    toggleButtonStatus(submitHandler, false)
                 }
             }
         }
