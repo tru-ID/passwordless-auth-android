@@ -20,21 +20,14 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class SignupFragment : Fragment() {
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
-
-
         // Inflate the layout for this fragment
         val view=  inflater.inflate(R.layout.fragment_signup, container, false);
-
 
         return view;
     }
