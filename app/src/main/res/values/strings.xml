@@ -4,7 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tru_phonecheck">Tru.ID PhoneCheck</string>
-    <string name="button_text">Let\'s Go</string>
+    <string name="button_text">Sign Up</string>
     <string name="tru_logo">tru.ID Logo</string>
     <string name="tru_textfield">Enter your number to experience instant phone verification</string>
     <string name="tru_hint">Enter your phone number</string>

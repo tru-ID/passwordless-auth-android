@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.EditText
+import androidx.navigation.fragment.findNavController
 import com.example.tru_phonecheck.R
 import com.example.tru_phonecheck.api.data.PhoneCheck
 import com.example.tru_phonecheck.api.data.PhoneCheckPost
@@ -48,7 +50,7 @@ class SignupFragment : Fragment() {
                 println("valid number")
 
                 // disable button before async work
-                toggleButtonStatus(submitHandler, true)
+                toggleUIStatus(submitHandler, true, phoneNumberInput)
 
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
@@ -67,7 +69,7 @@ class SignupFragment : Fragment() {
                     }
 
                     // enable button
-                    toggleButtonStatus(submitHandler, false)
+                    toggleUIStatus(submitHandler, false, phoneNumberInput)
                 }
             } else {
                 Snackbar.make(container as View, "Invalid Phone Number", Snackbar.LENGTH_LONG).show()
@@ -84,14 +86,17 @@ class SignupFragment : Fragment() {
             GsonConverterFactory.create()).build().create(RetrofitService::class.java)
     }
 
-    private fun toggleButtonStatus (button: Button?, isDisabled: Boolean){
+    private fun toggleUIStatus (button: Button?, isDisabled: Boolean, input: EditText){
         activity?.runOnUiThread {
             if(isDisabled){
                 button?.isClickable = false;
                 button?.isEnabled = false;
+                input.isFocusable = false
+
             } else {
                 button?.isClickable = true;
                 button?.isEnabled = true;
+                input.isFocusable = true
             }
 
         }
@@ -107,12 +112,14 @@ class SignupFragment : Fragment() {
 
                 // update UI with phoneCheckResponse
                 if(phoneCheckResponse.match){
-                    Snackbar.make(container, "Registration Successful", Snackbar.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.action_signupFragment_to_signedUpFragment)
+
                 } else {
                     Snackbar.make(container, "Registration Failed", Snackbar.LENGTH_LONG).show()
                 }
             }
             else {
+                toggleUIStatus(submitHandler, false, phoneNumberInput)
                 Snackbar.make(container, "An unexpected problem occurred", Snackbar.LENGTH_LONG).show()
             }
         }

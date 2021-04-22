@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
+    android:background="#fff"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.onboarding.screens.SignupFragment">
@@ -29,6 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:background="@drawable/my_border_shape"
         app:layout_constraintVertical_bias="0.44" />
 
     <TextView
@@ -36,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tru_textfield"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/phoneNumberInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
