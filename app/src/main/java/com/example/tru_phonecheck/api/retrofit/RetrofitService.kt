@@ -10,10 +10,12 @@ interface RetrofitService {
     @Headers("Content-Type: application/json")
     @POST("/phone-check")
     suspend fun createPhoneCheck(@Body user: PhoneCheckPost): Response<PhoneCheck>
+
     @GET("/phone-check")
     suspend fun getPhoneCheck(@Query("check_id") checkId: String): Response<PhoneCheckResponse>
+
     companion object {
         // set up base_url in the format https://{subdomain}.loca.lt gotten from localTunnel URL
-        const val base_url = "https://{subdomain}.loca.lt"
+        const val base_url = "https://tru-id.loca.lt"
     }
 }
