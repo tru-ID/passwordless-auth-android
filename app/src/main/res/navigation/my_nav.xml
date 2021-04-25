@@ -27,5 +27,14 @@
         android:id="@+id/signupFragment"
         android:name="com.example.tru_phonecheck.fragments.onboarding.screens.SignupFragment"
         android:label="fragment_signup"
-        tools:layout="@layout/fragment_signup" />
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signupFragment_to_signedUpFragment"
+            app:destination="@id/signedUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signedUpFragment"
+        android:name="com.example.tru_phonecheck.fragments.onboarding.screens.SignedUpFragment"
+        android:label="fragment_signed_up"
+        tools:layout="@layout/fragment_signed_up" />
 </navigation>

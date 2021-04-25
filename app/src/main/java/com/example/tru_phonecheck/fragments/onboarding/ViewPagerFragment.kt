@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.tru_phonecheck.R
-import com.example.tru_phonecheck.fragments.onboarding.screens.ScreenOne
 import com.example.tru_phonecheck.fragments.onboarding.screens.ScreenTwo
 import kotlinx.android.synthetic.main.fragment_view_pager.view.*
 
@@ -22,7 +21,6 @@ class ViewPagerFragment : Fragment() {
         // Inflate the layout for this fragment
         val view=  inflater.inflate(R.layout.fragment_view_pager, container, false)
 val fragmentList = arrayListOf<Fragment>(
-ScreenOne(),
     ScreenTwo()
 )
 

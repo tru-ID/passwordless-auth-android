@@ -11,14 +11,12 @@ import android.widget.Button
 import com.example.tru_phonecheck.R
 import com.example.tru_phonecheck.utlis.isPhoneNumberFormatValid
 import com.google.android.material.snackbar.Snackbar
-import id.tru.sdk.TruSDK
 import kotlinx.android.synthetic.main.fragment_signup.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 
 class SignupFragment : Fragment() {

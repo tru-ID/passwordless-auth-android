@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
-    tools:context=".fragments.onboarding.screens.ScreenOne">
+    android:background="#fff"
+    tools:context=".fragments.onboarding.screens.ScreenTwo">
 
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:id="@+id/taglinetwo_textview"
         android:layout_width="wrap_content"
-        android:textSize="22sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:text="@string/tru_tagline2"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
