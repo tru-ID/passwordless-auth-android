@@ -7,6 +7,7 @@ Before you begin you'll need the following:
 - Android capable IDE ([Android Studio](https://developer.android.com/studio) recommended)
 - A [**tru.ID** account](https://tru.id)
 - An Android phone with mobile data connection
+- Node.js
 
 ## Getting Started
 
