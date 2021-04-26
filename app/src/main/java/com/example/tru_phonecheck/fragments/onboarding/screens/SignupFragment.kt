@@ -35,7 +35,7 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view=  inflater.inflate(R.layout.fragment_signup, container, false);
+        val view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         view.submitHandler.setOnClickListener {
             // get phone number
@@ -53,8 +53,8 @@ class SignupFragment : Fragment() {
             else {
                 println("valid number")
 
-                // disable button before async work
-                toggleUIStatus(submitHandler, true, phoneNumberInput)
+                // disable UI
+                setUIStatus(submitHandler, phoneNumberInput, false)
 
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
@@ -74,13 +74,11 @@ class SignupFragment : Fragment() {
                                 // update UI with phoneCheckResponse
                                 if(phoneCheckResponse.match){
                                     findNavController().navigate(R.id.action_signupFragment_to_signedUpFragment)
-
                                 } else {
                                     Snackbar.make(container as View, "Registration Failed", Snackbar.LENGTH_LONG).show()
                                 }
                             }
                             else {
-                                toggleUIStatus(submitHandler, false, phoneNumberInput)
                                 Snackbar.make(container as View, "An unexpected problem occurred", Snackbar.LENGTH_LONG).show()
                             }
                         }
@@ -89,7 +87,7 @@ class SignupFragment : Fragment() {
                     }
 
                     // enable button
-                    toggleUIStatus(submitHandler, false, phoneNumberInput)
+                    setUIStatus(submitHandler, phoneNumberInput, true)
                 }
             }
         }
@@ -104,19 +102,11 @@ class SignupFragment : Fragment() {
             GsonConverterFactory.create()).build().create(RetrofitService::class.java)
     }
 
-    private fun toggleUIStatus (button: Button?, isDisabled: Boolean, input: EditText){
+    private fun setUIStatus (button: Button?, input: EditText, enabled: Boolean){
         activity?.runOnUiThread {
-            if(isDisabled){
-                button?.isClickable = false;
-                button?.isEnabled = false;
-                input.isFocusable = false
-
-            } else {
-                button?.isClickable = true;
-                button?.isEnabled = true;
-                input.isFocusable = true
-            }
-
+                button?.isClickable = enabled
+                button?.isEnabled = enabled
+                input.isEnabled = enabled
         }
     }
 }
