@@ -28,6 +28,7 @@
         android:layout_marginStart="176dp"
         android:layout_marginEnd="176dp"
         android:text="Successfully Signed Up"
+        android:textColor="@color/design_default_color_on_secondary"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

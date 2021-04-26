@@ -46,7 +46,11 @@ class SignupFragment : Fragment() {
             phoneNumberInput.onEditorAction(EditorInfo.IME_ACTION_DONE)
 
             // if it's a valid phone number begin createPhoneCheck
-            if(isPhoneNumberFormatValid(phoneNumber)) {
+            if(!isPhoneNumberFormatValid(phoneNumber)) {
+                Snackbar.make(container as View, "Invalid Phone Number", Snackbar.LENGTH_LONG)
+                    .show()
+            }
+            else {
                 println("valid number")
 
                 // disable button before async work
@@ -62,7 +66,23 @@ class SignupFragment : Fragment() {
                             truSDK.openCheckUrl(phoneCheck.check_url)
 
                             // get PhoneCheck result
-                            getPhoneCheckResult(phoneCheck.check_id)
+                            val response = rf().getPhoneCheck(phoneCheck.check_id)
+
+                            if(response.isSuccessful && response.body() != null){
+                                val phoneCheckResponse = response.body() as PhoneCheckResponse
+
+                                // update UI with phoneCheckResponse
+                                if(phoneCheckResponse.match){
+                                    findNavController().navigate(R.id.action_signupFragment_to_signedUpFragment)
+
+                                } else {
+                                    Snackbar.make(container as View, "Registration Failed", Snackbar.LENGTH_LONG).show()
+                                }
+                            }
+                            else {
+                                toggleUIStatus(submitHandler, false, phoneNumberInput)
+                                Snackbar.make(container as View, "An unexpected problem occurred", Snackbar.LENGTH_LONG).show()
+                            }
                         }
                     } catch(e: Throwable){
                         Snackbar.make(container as View, e.message!!, Snackbar.LENGTH_SHORT).show()
@@ -71,8 +91,6 @@ class SignupFragment : Fragment() {
                     // enable button
                     toggleUIStatus(submitHandler, false, phoneNumberInput)
                 }
-            } else {
-                Snackbar.make(container as View, "Invalid Phone Number", Snackbar.LENGTH_LONG).show()
             }
         }
 
@@ -99,29 +117,6 @@ class SignupFragment : Fragment() {
                 input.isFocusable = true
             }
 
-        }
-    }
-
-    // get PhoneCheck
-    private fun getPhoneCheckResult(checkId: String){
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = rf().getPhoneCheck(checkId)
-
-            if(response.isSuccessful && response.body() != null){
-                val phoneCheckResponse = response.body() as PhoneCheckResponse
-
-                // update UI with phoneCheckResponse
-                if(phoneCheckResponse.match){
-                    findNavController().navigate(R.id.action_signupFragment_to_signedUpFragment)
-
-                } else {
-                    Snackbar.make(container, "Registration Failed", Snackbar.LENGTH_LONG).show()
-                }
-            }
-            else {
-                toggleUIStatus(submitHandler, false, phoneNumberInput)
-                Snackbar.make(container, "An unexpected problem occurred", Snackbar.LENGTH_LONG).show()
-            }
         }
     }
 }
