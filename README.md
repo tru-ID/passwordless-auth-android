@@ -54,7 +54,7 @@ Open the project up in your Android capable IDE, navigate to `app/src/main/java/
 Finally, connect your phone to your computer so it's used for running the Android project and run the application from your IDE.
 
 ## Attribution 
-The images used were gotten from: 
+The images used from: 
 - https://www.flaticon.com/authors/google 
 - https://www.freepik.com
 - https://www.flaticon.com/search?search-type=icons
