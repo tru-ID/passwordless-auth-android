@@ -52,6 +52,12 @@ You will get a localtunnel URL in the form `https://{subdomain}.loca.lt`
 Open the project up in your Android capable IDE, navigate to `app/src/main/java/com/example/tru_phonecheck/api/retrofit/RetrofitService.kt` [here](https://github.com/tru-ID/passwordless-auth-android/blob/main/app/src/main/java/com/example/tru_phonecheck/api/retrofit/RetrofitService.kt#L17) and replace the value of `base_url` with the localtunnel URL. 
 Finally, connect your phone to your computer so it's used for running the Android project and run the application from your IDE.
 
+## Attribution 
+The images used were gotten from: 
+- https://www.flaticon.com/authors/google 
+- https://www.freepik.com
+- https://www.flaticon.com/search?search-type=icons
+
 ## Meta
 
 Distributed under the MIT License. See [LICENSE](https://github.com/tru-ID/android-passwordless-auth/blob/main/LICENSE.md)
