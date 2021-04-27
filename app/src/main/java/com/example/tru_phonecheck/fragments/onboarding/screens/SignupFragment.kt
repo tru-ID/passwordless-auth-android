@@ -35,7 +35,7 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view=  inflater.inflate(R.layout.fragment_signup, container, false);
+        val view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         view.submitHandler.setOnClickListener {
             // get phone number
@@ -46,11 +46,15 @@ class SignupFragment : Fragment() {
             phoneNumberInput.onEditorAction(EditorInfo.IME_ACTION_DONE)
 
             // if it's a valid phone number begin createPhoneCheck
-            if(isPhoneNumberFormatValid(phoneNumber)) {
+            if(!isPhoneNumberFormatValid(phoneNumber)) {
+                Snackbar.make(container as View, "Invalid Phone Number", Snackbar.LENGTH_LONG)
+                    .show()
+            }
+            else {
                 println("valid number")
 
-                // disable button before async work
-                toggleUIStatus(submitHandler, true, phoneNumberInput)
+                // disable UI
+                setUIStatus(submitHandler, phoneNumberInput, false)
 
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
@@ -62,17 +66,29 @@ class SignupFragment : Fragment() {
                             truSDK.openCheckUrl(phoneCheck.check_url)
 
                             // get PhoneCheck result
-                            getPhoneCheckResult(phoneCheck.check_id)
+                            val response = rf().getPhoneCheck(phoneCheck.check_id)
+
+                            if(response.isSuccessful && response.body() != null){
+                                val phoneCheckResponse = response.body() as PhoneCheckResponse
+
+                                // update UI with phoneCheckResponse
+                                if(phoneCheckResponse.match){
+                                    findNavController().navigate(R.id.action_signupFragment_to_signedUpFragment)
+                                } else {
+                                    Snackbar.make(container as View, "Registration Failed", Snackbar.LENGTH_LONG).show()
+                                }
+                            }
+                            else {
+                                Snackbar.make(container as View, "An unexpected problem occurred", Snackbar.LENGTH_LONG).show()
+                            }
                         }
                     } catch(e: Throwable){
                         Snackbar.make(container as View, e.message!!, Snackbar.LENGTH_SHORT).show()
                     }
 
                     // enable button
-                    toggleUIStatus(submitHandler, false, phoneNumberInput)
+                    setUIStatus(submitHandler, phoneNumberInput, true)
                 }
-            } else {
-                Snackbar.make(container as View, "Invalid Phone Number", Snackbar.LENGTH_LONG).show()
             }
         }
 
@@ -86,42 +102,11 @@ class SignupFragment : Fragment() {
             GsonConverterFactory.create()).build().create(RetrofitService::class.java)
     }
 
-    private fun toggleUIStatus (button: Button?, isDisabled: Boolean, input: EditText){
+    private fun setUIStatus (button: Button?, input: EditText, enabled: Boolean){
         activity?.runOnUiThread {
-            if(isDisabled){
-                button?.isClickable = false;
-                button?.isEnabled = false;
-                input.isFocusable = false
-
-            } else {
-                button?.isClickable = true;
-                button?.isEnabled = true;
-                input.isFocusable = true
-            }
-
-        }
-    }
-
-    // get PhoneCheck
-    private fun getPhoneCheckResult(checkId: String){
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = rf().getPhoneCheck(checkId)
-
-            if(response.isSuccessful && response.body() != null){
-                val phoneCheckResponse = response.body() as PhoneCheckResponse
-
-                // update UI with phoneCheckResponse
-                if(phoneCheckResponse.match){
-                    findNavController().navigate(R.id.action_signupFragment_to_signedUpFragment)
-
-                } else {
-                    Snackbar.make(container, "Registration Failed", Snackbar.LENGTH_LONG).show()
-                }
-            }
-            else {
-                toggleUIStatus(submitHandler, false, phoneNumberInput)
-                Snackbar.make(container, "An unexpected problem occurred", Snackbar.LENGTH_LONG).show()
-            }
+                button?.isClickable = enabled
+                button?.isEnabled = enabled
+                input.isEnabled = enabled
         }
     }
 }
